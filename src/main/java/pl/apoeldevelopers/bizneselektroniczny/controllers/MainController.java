@@ -10,7 +10,7 @@ public class MainController {
     @GetMapping("/")
     public MyObj getMyObj(){
         MyObj myObj = new MyObj();
-        myObj.setMessage("witaj");
+        myObj.setMessage("no siema");
 
         return myObj;
     }

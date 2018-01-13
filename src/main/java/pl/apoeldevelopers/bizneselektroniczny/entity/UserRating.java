@@ -10,7 +10,7 @@ import javax.ws.rs.GET;
  * Created by Jakub Michałowski on 13.01.2018.
  * All rights reserved.
  */
-@Entity
+
 public class UserRating {
 
     @Getter

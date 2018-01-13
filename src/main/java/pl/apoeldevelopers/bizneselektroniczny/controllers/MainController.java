@@ -21,9 +21,11 @@ public class MainController {
 
     @PostMapping("/test")
     ResponseEntity<?> test(@RequestBody UserRating input){
-        if(input.getLorem() == "ipsum")
+        if(input.getLorem().equals("witold")){
             return ResponseEntity.ok().build();
-        else
+        }
+        else{
             return ResponseEntity.notFound().build();
+        }
     }
 }

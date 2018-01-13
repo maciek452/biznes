@@ -12,7 +12,6 @@ import javax.sql.DataSource;
  * All rights reserved.
  */
 @Configuration
-@SpringBootApplication
 public class Config {
 
     @Bean

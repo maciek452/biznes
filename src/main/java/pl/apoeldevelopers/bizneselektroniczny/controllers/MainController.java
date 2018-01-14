@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.apoeldevelopers.bizneselektroniczny.MyObj;
+import pl.apoeldevelopers.bizneselektroniczny.database.repositories.RatingRepo;
+import pl.apoeldevelopers.bizneselektroniczny.entities.RatingInput;
 import pl.apoeldevelopers.bizneselektroniczny.entities.RecoList;
 import pl.apoeldevelopers.bizneselektroniczny.entities.Recommendation;
 import pl.apoeldevelopers.bizneselektroniczny.entities.UserRating;
+import pl.apoeldevelopers.bizneselektroniczny.utilities.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,10 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    RecoList recoList;
+    private RecoList recoList;
+
+    @Autowired
+    private DatabaseManager db;
 
     @GetMapping("/test")
     public MyObj getMyObj(){
@@ -29,14 +35,10 @@ public class MainController {
     }
 
     //@RequestBody(required = false) UserRating input
-    @PostMapping("/test")
-    public ResponseEntity<?> test(){
-//        if(input.getProductId() == 1){
-//            return ResponseEntity.ok().build();
-//        }
-//        else{
-//            return ResponseEntity.notFound().build();
-//        }
+    @PostMapping("/add")
+    public ResponseEntity<?> test(@RequestBody(required = true) RatingInput input){
+        db.addUserRating(input);
+
         return ResponseEntity.ok().build();
     }
 

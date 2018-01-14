@@ -25,4 +25,10 @@ public class UserIdMap {
     @Id@GeneratedValue
     private long lid;
 
+    public UserIdMap(){}
+
+    public UserIdMap(String sid){
+        this.sid = sid;
+    }
+
 }

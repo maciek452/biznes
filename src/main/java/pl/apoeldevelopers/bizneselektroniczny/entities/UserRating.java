@@ -3,6 +3,7 @@ package pl.apoeldevelopers.bizneselektroniczny.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -28,5 +29,13 @@ public class UserRating {
     @Getter
     @Setter
     private float rating;
+
+    public UserRating(){}
+
+    public UserRating(long userId, long productId, float rating){
+        this.userId = userId;
+        this.productId = productId;
+        this.rating = rating;
+    }
 
 }

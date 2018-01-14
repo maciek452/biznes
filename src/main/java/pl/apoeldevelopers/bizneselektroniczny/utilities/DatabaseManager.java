@@ -61,7 +61,7 @@ public class DatabaseManager {
         float price = product.getPrice();
         price = price - (price*0.23f);
         String url = "http://172.20.83.41/" + categoryLang.getLink() + "/" + id + cache + productLang.getLink() + ".html";
-        String imageUrl = "http://172.20.83.41/" + image.getId() + "-home_default/" + name + ".jpg";
+        String imageUrl = "http://172.20.83.41/" + image.getId() + "-home_default/" + productLang.getLink() + ".jpg";
         Recommendation recommendation = new Recommendation(id, name, price, url, imageUrl);
 
         return recommendation;

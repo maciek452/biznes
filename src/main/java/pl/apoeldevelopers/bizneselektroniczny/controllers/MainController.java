@@ -1,37 +1,30 @@
 package pl.apoeldevelopers.bizneselektroniczny.controllers;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import pl.apoeldevelopers.bizneselektroniczny.MyObj;
-import pl.apoeldevelopers.bizneselektroniczny.database.repositories.RatingRepo;
+import org.springframework.web.bind.annotation.*;
 import pl.apoeldevelopers.bizneselektroniczny.entities.RatingInput;
-import pl.apoeldevelopers.bizneselektroniczny.entities.RecoList;
-import pl.apoeldevelopers.bizneselektroniczny.entities.Recommendation;
-import pl.apoeldevelopers.bizneselektroniczny.entities.UserRating;
+import pl.apoeldevelopers.bizneselektroniczny.entities.RecommendationList;
+import pl.apoeldevelopers.bizneselektroniczny.entities.prestashop.Product;
 import pl.apoeldevelopers.bizneselektroniczny.utilities.DatabaseManager;
-
-import java.util.ArrayList;
-import java.util.List;
+import pl.apoeldevelopers.bizneselektroniczny.utilities.Recommender;
 
 @RestController
 public class MainController {
 
     @Autowired
-    private RecoList recoList;
+    private RecommendationList recommendationList;
 
     @Autowired
     private DatabaseManager db;
 
-    @GetMapping("/test")
-    public MyObj getMyObj(){
-        MyObj myObj = new MyObj();
-        myObj.setMessage("Ostateczna próba");
+    @Autowired
+    private Recommender recommender;
 
-        return myObj;
+    @GetMapping("/test")
+    public Product getMyObj(){
+        return db.getProduct(1);
     }
 
     //@RequestBody(required = false) UserRating input
@@ -42,8 +35,15 @@ public class MainController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get")
-    public RecoList getRecommendations( ){
-        return recoList;
+    @GetMapping("/get/{id}")
+    public RecommendationList getRecommendations(@PathVariable("id") int id ){
+        RecommendationList list;
+        try {
+            list = recommender.getRecommendation(id);
+        } catch (TasteException e) {
+            e.printStackTrace();
+            list = new RecommendationList();
+        }
+        return list;
     }
 }

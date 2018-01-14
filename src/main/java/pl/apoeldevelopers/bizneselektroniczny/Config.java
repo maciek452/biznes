@@ -7,8 +7,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import pl.apoeldevelopers.bizneselektroniczny.entities.RecoList;
+import pl.apoeldevelopers.bizneselektroniczny.entities.Recommendation;
+import pl.apoeldevelopers.bizneselektroniczny.entities.UserRating;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jakub Michałowski on 13.01.2018.
@@ -41,4 +46,20 @@ public class Config {
             }
         };
     }
+
+    @Bean
+    public RecoList recommendationList(){
+        RecoList recoList = new RecoList();
+        Recommendation recommendation = new Recommendation(1717, "adidas Adi-Ease BB8471", 199.00f, "http://172.20.83.41/polbuty/1717-22-adidas-adi-ease-bb8471.html", "http://172.20.83.41/2268-large_default/adidas-adi-ease-bb8471.jpg");
+
+        recoList.add(recommendation);
+        recoList.add(recommendation);
+        recoList.add(recommendation);
+        recoList.add(recommendation);
+
+
+        return recoList;
+    }
+
+
 }

@@ -59,8 +59,9 @@ public class DatabaseManager {
             cache = "-";
         String name = productLang.getName();
         float price = product.getPrice();
-        String url = "http://172.20.83.41:8080/" + categoryLang.getLink() + "/" + id + cache + productLang.getLink() + ".html";
-        String imageUrl = "http://172.20.83.41:8080/" + image.getId() + "-home_default/" + name + ".jpg";
+        price = price - (price*0.23f);
+        String url = "http://172.20.83.41/" + categoryLang.getLink() + "/" + id + cache + productLang.getLink() + ".html";
+        String imageUrl = "http://172.20.83.41/" + image.getId() + "-home_default/" + name + ".jpg";
         Recommendation recommendation = new Recommendation(id, name, price, url, imageUrl);
 
         return recommendation;

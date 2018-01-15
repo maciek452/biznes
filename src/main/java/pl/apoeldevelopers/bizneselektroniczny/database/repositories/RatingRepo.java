@@ -4,10 +4,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.apoeldevelopers.bizneselektroniczny.entities.UserRating;
 
+import java.util.List;
+
 /**
  * Created by Jakub Michałowski on 14.01.2018.
  * All rights reserved.
  */
 @Repository
 public interface RatingRepo extends CrudRepository<UserRating, Long>{
+    List<UserRating> findFirstByProductIdAndUserId(Long productId, Long userId);
 }

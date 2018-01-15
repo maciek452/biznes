@@ -41,9 +41,18 @@ public class DatabaseManager {
             userIdMap = new UserIdMap(ratingInput.getUserId());
             mapRepo.save(userIdMap);
         }
+        List<UserRating> ratingList  = ratingRepo.findFirstByProductIdAndUserId(ratingInput.getProductId(), userIdMap.getLid());
 
-        UserRating userRating = new UserRating(userIdMap.getLid(), ratingInput.getProductId(), ratingInput.getRating());
-        ratingRepo.save(userRating);
+        if(ratingList.size() > 0){
+            UserRating userRating = ratingList.get(0);
+            if(ratingInput.getRating() > userRating.getRating()){
+                UserRating newRating = new UserRating(userIdMap.getLid(), ratingInput.getProductId(), ratingInput.getRating());
+                ratingRepo.save(newRating);
+            }
+        }else {
+            UserRating userRating = new UserRating(userIdMap.getLid(), ratingInput.getProductId(), ratingInput.getRating());
+            ratingRepo.save(userRating);
+        }
     }
 
     public Product getProduct(int id){

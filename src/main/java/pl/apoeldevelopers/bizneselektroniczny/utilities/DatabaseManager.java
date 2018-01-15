@@ -33,8 +33,12 @@ public class DatabaseManager {
     CategoryProductRepo categoryProductRepo;
 
     public void addUserRating(RatingInput ratingInput){
-        UserIdMap userIdMap = new UserIdMap(ratingInput.getUserId());
-        mapRepo.save(userIdMap);
+        UserIdMap userIdMap = mapRepo.findFirstBySid(ratingInput.getUserId());
+        if(userIdMap == null) {
+            userIdMap = new UserIdMap(ratingInput.getUserId());
+            mapRepo.save(userIdMap);
+        }
+
         UserRating userRating = new UserRating(userIdMap.getLid(), ratingInput.getProductId(), ratingInput.getRating());
         ratingRepo.save(userRating);
     }

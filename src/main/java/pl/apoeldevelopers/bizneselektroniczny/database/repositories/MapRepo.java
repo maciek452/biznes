@@ -10,4 +10,5 @@ import pl.apoeldevelopers.bizneselektroniczny.entities.UserIdMap;
  */
 @Repository
 public interface MapRepo extends CrudRepository<UserIdMap, Long> {
+    UserIdMap findFirstBySid(String sid);
 }

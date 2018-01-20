@@ -26,9 +26,9 @@ public class Config {
 
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://172.17.0.2:3306/prestashop?verifyServerCertificate=false&useSSL=true");
-        //dataSource.setUrl("jdbc:mysql://localhost:3306/mahout?verifyServerCertificate=false&useSSL=true");
-        dataSource.setUsername("user1");
-        dataSource.setPassword("Buterier123");
+        //dataSource.setUrl("jdbc:mysql://mysql:3306/prestashop?verifyServerCertificate=false&useSSL=true");
+        dataSource.setUsername("root");
+        dataSource.setPassword("admin");
 
 
         return dataSource;

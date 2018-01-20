@@ -6,9 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.apoeldevelopers.bizneselektroniczny.entities.RatingInput;
 import pl.apoeldevelopers.bizneselektroniczny.entities.RecommendationList;
+import pl.apoeldevelopers.bizneselektroniczny.entities.ScorpionRecommendation;
 import pl.apoeldevelopers.bizneselektroniczny.entities.prestashop.Product;
 import pl.apoeldevelopers.bizneselektroniczny.utilities.DatabaseManager;
 import pl.apoeldevelopers.bizneselektroniczny.utilities.Recommender;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class MainController {
@@ -36,13 +40,13 @@ public class MainController {
     }
 
     @GetMapping("/get/{id}")
-    public RecommendationList getRecommendations(@PathVariable("id") int id ){
-        RecommendationList list;
+    public List<ScorpionRecommendation> getRecommendations(@PathVariable("id") int id ){
+        List<ScorpionRecommendation> list;
         try {
             list = recommender.getRecommendation(id);
         } catch (TasteException e) {
             e.printStackTrace();
-            list = new RecommendationList();
+            list = new ArrayList<>();
         }
         return list;
     }

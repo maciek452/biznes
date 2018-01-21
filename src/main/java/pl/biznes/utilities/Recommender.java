@@ -35,7 +35,7 @@ public class Recommender {
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendedItems){
-            list.add(new ScorpionRecommendation(recommendation.getItemID()));
+            list.add(db.getRecommendation(recommendation.getItemID()));
         }
 
         return list;

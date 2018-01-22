@@ -32,24 +32,30 @@ public class Recommender {
         //ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
         UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
+        System.out.println("UserSimilarity: " + userSimilarity.toString());
+
         UserNeighborhood neighborhood =
-                new NearestNUserNeighborhood(3, userSimilarity, model);
+                new NearestNUserNeighborhood(9, userSimilarity, model);
+        System.out.println("UserNeighborhood: " + neighborhood.toString());
 
         //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
 
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
+        System.out.println("GenericUserBasedRecommender: " + recommender.toString());
         //CachingRecommender cachingRecommender = new CachingRecommender(recommender);
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
         List<RecommendedItem> recommendations =
                 recommender.recommend(userId, 4);
+        System.out.println("recommendations: " + recommendations.toString());
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendations){
             list.add(db.getRecommendation(recommendation.getItemID()));
         }
 
+        System.out.println("list: " + list.toString());
         return list;
     }
 }

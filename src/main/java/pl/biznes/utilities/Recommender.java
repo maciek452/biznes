@@ -29,32 +29,30 @@ public class Recommender {
     public List<ScorpionRecommendation> getRecommendation(int userId) throws TasteException {
         DataModel model = new ReloadFromJDBCDataModel(new MySQLJDBCDataModel(dataSource, "ps_product_comment", "id_customer", "id_product", "grade", null));
 
-        //ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
         UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
         UserNeighborhood neighborhood =
                 new ThresholdUserNeighborhood(0.0001, userSimilarity, model);
+        //tutaj wypisuję sąsiadów danego usera
         for(Long user : neighborhood.getUserNeighborhood(userId)){
             System.out.println("UserNeighborhood for user: " + user);
         }
 
-        //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
-
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
 
+        //tutaj wypisuję preferencje danego usera
         for(int i = 1; i < 400; i++){
             if(recommender.estimatePreference(userId, i)!= Float.NaN)
                 System.out.println("Preference for item "+ i +": " + recommender.estimatePreference(userId, i));
         }
 
-        //CachingRecommender cachingRecommender = new CachingRecommender(recommender);
-
-        //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
         List<RecommendedItem> recommendations =
                 recommender.recommend(userId, 4);
         System.out.println("userId: " + userId);
+        //a tu rekomendacje
         System.out.println("recommendations: " + recommendations.toString());
+        //jak nie ma sąsiadów, to nie ma rekomendacji
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendations){

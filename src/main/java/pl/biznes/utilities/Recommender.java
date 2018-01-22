@@ -34,14 +34,14 @@ public class Recommender {
 
         UserNeighborhood neighborhood =
                 new ThresholdUserNeighborhood(0.0001, userSimilarity, model);
-        System.out.println("UserNeighborhood for user: " + neighborhood.getUserNeighborhood(userId));
+        System.out.println("UserNeighborhood for user: " + neighborhood.getUserNeighborhood(userId).toString());
 
         //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
 
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
 
-        for(int i = 1; i < 100; i++){
+        for(int i = 1; i < 300; i++){
             System.out.println("Preference for item "+ i +": " + recommender.estimatePreference(userId, i));
         }
 

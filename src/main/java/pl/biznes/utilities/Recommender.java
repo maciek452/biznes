@@ -41,7 +41,10 @@ public class Recommender {
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
 
-        System.out.println("GenericUserBasedRecommender: " + recommender.toString());
+        for(int i = 1; i < 100; i++){
+            System.out.println("Preference for item "+ i +": " + recommender.estimatePreference(userId, i));
+        }
+
         //CachingRecommender cachingRecommender = new CachingRecommender(recommender);
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);

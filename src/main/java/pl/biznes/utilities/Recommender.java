@@ -3,7 +3,7 @@ package pl.biznes.utilities;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
@@ -32,10 +32,8 @@ public class Recommender {
         //ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
         UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
-        System.out.println("UserSimilarity: " + userSimilarity.);
-
         UserNeighborhood neighborhood =
-                new ThresholdUserNeighborhood(0.1, similarity, model);
+                new ThresholdUserNeighborhood(0.0001, userSimilarity, model);
         System.out.println("UserNeighborhood: " + neighborhood.toString());
 
         //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);

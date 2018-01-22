@@ -3,13 +3,12 @@ package pl.biznes.utilities;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import pl.biznes.entities.ScorpionRecommendation;
 
@@ -38,12 +37,12 @@ public class Recommender {
         System.out.println("UserSimilarity: " + userSimilarity.toString());
 
         UserNeighborhood neighborhood =
-                new ThresholdUserNeighborhood(0.3, userSimilarity, model);
+                new NearestNUserNeighborhood(1, userSimilarity, model);
         System.out.println("UserNeighborhood: " + neighborhood.toString());
 
         //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
 
-        UserBasedRecommender recommender =
+        GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
 
         System.out.println("GenericUserBasedRecommender: " + recommender.toString());
@@ -51,7 +50,7 @@ public class Recommender {
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
         List<RecommendedItem> recommendations =
-                recommender.recommend(userId, 10);
+                recommender.recommend(userId, 4);
         System.out.println("userId: " + userId);
         System.out.println("recommendations: " + recommendations.toString());
 

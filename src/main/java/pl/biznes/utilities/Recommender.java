@@ -24,14 +24,15 @@ public class Recommender {
         this.db = db;
     }
 
-    public List<ScorpionRecommendation> getRecommendation(int itemId) throws TasteException {
+    public List<ScorpionRecommendation> getRecommendation(int userId) throws TasteException {
         DataModel dm = new ReloadFromJDBCDataModel(new MySQLJDBCDataModel(dataSource, "ps_product_comment", "id_customer", "id_product", "grade", null));
 
         ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
 
         GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
 
-        List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
+        //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
+        List<RecommendedItem>recommendedItems = recommender.recommend(userId, 4);
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendedItems){

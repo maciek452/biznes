@@ -32,7 +32,7 @@ public class Recommender {
         UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
         UserNeighborhood neighborhood =
-                new ThresholdUserNeighborhood(0.1, userSimilarity, model);
+                new ThresholdUserNeighborhood(0.5, userSimilarity, model);
         //tutaj wypisuję sąsiadów danego usera
         for(Long user : neighborhood.getUserNeighborhood(userId)){
             System.out.println("UserNeighborhood for user: " + user);

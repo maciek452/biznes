@@ -3,11 +3,14 @@ package pl.biznes.utilities;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.CachingRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import pl.biznes.entities.ScorpionRecommendation;
 
 import javax.sql.DataSource;
@@ -25,17 +28,28 @@ public class Recommender {
     }
 
     public List<ScorpionRecommendation> getRecommendation(int userId) throws TasteException {
-        DataModel dm = new ReloadFromJDBCDataModel(new MySQLJDBCDataModel(dataSource, "ps_product_comment", "id_customer", "id_product", "grade", null));
+        DataModel model = new ReloadFromJDBCDataModel(new MySQLJDBCDataModel(dataSource, "ps_product_comment", "id_customer", "id_product", "grade", null));
 
-        ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
+        //ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
+        UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
-        GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
+        UserNeighborhood neighborhood =
+                new NearestNUserNeighborhood(3, userSimilarity, model);
+
+        //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
+
+        GenericUserBasedRecommender recommender =
+                new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
+        CachingRecommender cachingRecommender = new CachingRecommender(recommender);
+
+
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
-        List<RecommendedItem>recommendedItems = recommender.recommend(userId, 4);
+        List<RecommendedItem> recommendations =
+                cachingRecommender.recommend(1234, 10);
 
         List<ScorpionRecommendation> list = new ArrayList<>();
-        for(RecommendedItem recommendation : recommendedItems){
+        for(RecommendedItem recommendation : recommendations){
             list.add(db.getRecommendation(recommendation.getItemID()));
         }
 

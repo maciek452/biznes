@@ -4,7 +4,6 @@ import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
-import org.apache.mahout.cf.taste.impl.recommender.CachingRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
@@ -40,13 +39,11 @@ public class Recommender {
 
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
-        CachingRecommender cachingRecommender = new CachingRecommender(recommender);
-
-
+        //CachingRecommender cachingRecommender = new CachingRecommender(recommender);
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
         List<RecommendedItem> recommendations =
-                cachingRecommender.recommend(userId, 4);
+                recommender.recommend(userId, 4);
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendations){

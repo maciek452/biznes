@@ -46,7 +46,7 @@ public class Recommender {
 
         //List<RecommendedItem>recommendedItems = recommender.mostSimilarItems(itemId, 4);
         List<RecommendedItem> recommendations =
-                cachingRecommender.recommend(1234, 10);
+                cachingRecommender.recommend(userId, 4);
 
         List<ScorpionRecommendation> list = new ArrayList<>();
         for(RecommendedItem recommendation : recommendations){

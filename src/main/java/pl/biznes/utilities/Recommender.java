@@ -43,8 +43,9 @@ public class Recommender {
         GenericUserBasedRecommender recommender =
                 new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
 
-        for(int i = 1; i < 300; i++){
-            System.out.println("Preference for item "+ i +": " + recommender.estimatePreference(userId, i));
+        for(int i = 1; i < 400; i++){
+            if(recommender.estimatePreference(userId, i)!= Float.NaN)
+                System.out.println("Preference for item "+ i +": " + recommender.estimatePreference(userId, i));
         }
 
         //CachingRecommender cachingRecommender = new CachingRecommender(recommender);

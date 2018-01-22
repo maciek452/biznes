@@ -34,7 +34,7 @@ public class Recommender {
 
         UserNeighborhood neighborhood =
                 new ThresholdUserNeighborhood(0.0001, userSimilarity, model);
-        System.out.println("UserNeighborhood: " + neighborhood.toString());
+        System.out.println("UserNeighborhood for user: " + neighborhood.getUserNeighborhood(userId));
 
         //GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dm, sim);
 
